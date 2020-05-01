@@ -1,7 +1,7 @@
 // Copyright 2018 Your Name <your_email>
 
-#ifndef INCLUDE_HEADER_HPP_
-#define INCLUDE_HEADER_HPP_
+#ifndef INCLUDE_MAIN_HPP_
+#define INCLUDE_MAIN_HPP_
 #include <iostream>
 #include <string>
 #include <random>
@@ -15,23 +15,30 @@
 #include <rocksdb/options.h>
 #include <boost/program_options.hpp>
 #include <mutex>
-#include "picosha2.h"
-#include "constants.h"
+#include <vector>
+#include <list>
+#include <picosha2.h>
+#include <constants.hpp>
 
-using FContainer = std::list<std::unique_ptr<rocksdb::ColumnFamilyHandle>>;
-using FDescriptorContainer = std::vector<rocksdb::ColumnFamilyDescriptor>;
-using FHandlerContainer = std::list<std::unique_ptr<rocksdb::ColumnFamilyHandle>>;
+using FContainer =
+        std::list<std::unique_ptr<rocksdb::ColumnFamilyHandle>>;
+using FDescriptorContainer =
+        std::vector<rocksdb::ColumnFamilyDescriptor>;
+using FHandlerContainer =
+        std::list<std::unique_ptr<rocksdb::ColumnFamilyHandle>>;
 using StrContainer = boost::unordered_map<std::string, std::string>;
 namespace po = boost::program_options;
 
 class DBHashCreator {
 public:
-    explicit DBHashCreator(std::string path) : _path(path) {};
+    explicit DBHashCreator(std::string path) : _path(path) {}
 
-    DBHashCreator(std::string path, std::size_t threadCount, std::string logLVL) :
+    DBHashCreator(std::string path,
+            std::size_t threadCount,
+            std::string logLVL) :
             _path(path),
             _threadCountHash(threadCount),
-            _logLVL(logLVL){};
+            _logLVL(logLVL){}
 
     void createDB();
 
@@ -62,4 +69,4 @@ private:
     std::size_t _threadCountHash = DEFAULT_THREAD_HASH;
     std::mutex _mutex;
 };
-#endif // INCLUDE_HEADER_HPP_
+#endif // INCLUDE_MAIN_HPP_

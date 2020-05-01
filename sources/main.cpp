@@ -17,7 +17,8 @@
 // will use to operate on column family column_family[i].
 // Before delete DB, you have to close All column families by calling
 // DestroyColumnFamilyHandle() with all the handles.
-FHandlerContainer DBHashCreator::openDB(const FDescriptorContainer &descriptors) {
+FHandlerContainer DBHashCreator::openDB
+(const FDescriptorContainer &descriptors) {
     FHandlerContainer handlers;
     std::vector < rocksdb::ColumnFamilyHandle * > newHandles;
     rocksdb::DB *dbStrPtr;
@@ -137,7 +138,8 @@ void DBHashCreator::randomFill() {
 
 StrContainer DBHashCreator::getStrs(rocksdb::ColumnFamilyHandle *family) {
     boost::unordered_map <std::string, std::string> dbCase;
-    std::unique_ptr <rocksdb::Iterator> it(_db->NewIterator(rocksdb::ReadOptions(), family));
+    std::unique_ptr <rocksdb::Iterator>
+            it(_db->NewIterator(rocksdb::ReadOptions(), family));
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         std::string key = it->key().ToString();
         std::string value = it->value().ToString();
@@ -146,7 +148,8 @@ StrContainer DBHashCreator::getStrs(rocksdb::ColumnFamilyHandle *family) {
     return dbCase;
 }
 
-void DBHashCreator::getHash(rocksdb::ColumnFamilyHandle *family, StrContainer StrContainer) {
+void DBHashCreator::getHash
+(rocksdb::ColumnFamilyHandle *family, StrContainer StrContainer) {
     for (auto it = StrContainer.begin(); it != StrContainer.end(); ++it) {
         std::string hash = picosha2::hash256_hex_string(it->first + it->second);
         std::cout << "key: " << it->first << " hash: " << hash << std::endl;
@@ -159,7 +162,8 @@ void DBHashCreator::getHash(rocksdb::ColumnFamilyHandle *family, StrContainer St
     }
 }
 
-void DBHashCreator::startHash(FHandlerContainer *handlers, std::list <StrContainer> *StrContainerList) {
+void DBHashCreator::startHash
+(FHandlerContainer *handlers, std::list <StrContainer> *StrContainerList) {
     while (!handlers->empty()) {
         _mutex.lock();
         if (handlers->empty()) {
@@ -182,7 +186,7 @@ void DBHashCreator::startThreads() {
 
     std::list <StrContainer> StrContainer;
 
-    for (auto &family: handlers) {
+    for (auto &family : handlers) {
         StrContainer.push_back(
                 getStrs(family.get())
         );
