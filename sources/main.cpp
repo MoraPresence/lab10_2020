@@ -188,15 +188,17 @@ void DBHashCreator::startThreads() {
 
     for (auto &family : handlers) {
         StrContainer.push_back(
-                getStrs(family.get())
-        );
+                getStrs(family.get()));
     }
 
     std::vector <std::thread> threads;
     threads.reserve(_threadCountHash);
     for (size_t i = 0; i < _threadCountHash; ++i) {
         threads.emplace_back(std::thread
-                                     (&DBHashCreator::startHash, this, &handlers, &StrContainer));
+                                     (&DBHashCreator::startHash,
+                                             this,
+                                             &handlers,
+                                             &StrContainer));
     }
     for (auto &th : threads) {
         th.join();
