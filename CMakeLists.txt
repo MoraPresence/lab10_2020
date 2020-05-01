@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.4)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+option(BUILD_COVERAGE "Build coverage" OFF)
+
 set(
         HUNTER_CACHE_SERVERS
         "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
@@ -12,61 +14,66 @@ set(
 include("tools/gate/cmake/HunterGate.cmake")
 
 HunterGate(
-        URL "https://github.com/ruslo/hunter/archive/v0.23.214.tar.gz"
-        SHA1 "e14bc153a7f16d6a5eeec845fb0283c8fad8c358"
+        URL "https://github.com/cpp-pm/hunter/archive/v0.23.218.tar.gz"
+        SHA1 "9a3594a61227967fb92159339ba326701b287b19"
 )
 
-project(template)
 
+# TODO: rename project and delete this comment
+project(template)
 string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
+hunter_add_package(Boost COMPONENTS log log_setup thread system program_options)
+find_package(Boost CONFIG REQUIRED log log_setup thread system program_options)
+hunter_add_package(rocksdb)
+find_package(RocksDB CONFIG REQUIRED)
+find_package (Threads REQUIRED)
 
-file(GLOB CPPS "*.cpp" "*.h" "*.c" ".hpp")
 
-add_executable(template ${CPPS})
-
+add_library(picosha2 INTERFACE
+        )
+add_library(logs INTERFACE
+        )
+add_library(header INTERFACE
+        )
+# TODO: change template word to project name and delete this comment
+add_library(template STATIC
+        # enum your files and delete this comment
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/logs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
+        )
 add_executable(tests
         # TODO: enum your files and delete this comment
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
         )
 
-hunter_add_package(
-        Boost
-        COMPONENTS
-        program_options
-        thread
-        log
-        filesystem
-)
-
-find_package (Threads REQUIRED)
-find_package(Boost REQUIRED COMPONENTS log)
-find_package(Boost REQUIRED COMPONENTS log_setup)
-find_package(Boost REQUIRED COMPONENTS program_options)
-
-hunter_add_package(rocksdb)
-find_package(RocksDB CONFIG REQUIRED)
-
-target_link_libraries(template
-        ${CMAKE_THREAD_LIBS_INIT}
+# TODO: change template word to project name and delete this comment
+target_include_directories(template
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
-
-
-set(Boost_USE_STATIC_LIBS        ON)
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package(Boost REQUIRED COMPONENTS system)
+target_include_directories(tests
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+        )
+# TODO: change template word to project name and delete this comment
+target_link_libraries(tests GTest::main template)
 
 target_include_directories(
-        template
-        PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
+        header
+        INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(
+        picosha2
+        INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(
+        logs
+        INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_link_libraries(
         template
         Boost::system
@@ -74,6 +81,15 @@ target_link_libraries(
         Boost::log
         Boost::log_setup
         Boost::program_options)
+target_link_libraries(header INTERFACE
+        Boost::system
+        RocksDB::rocksdb
+        Boost::log
+        Boost::log_setup
+        Boost::program_options)
+target_link_libraries(template
+        ${CMAKE_THREAD_LIBS_INIT}
+        )
 
 enable_testing()
 add_test(NAME unit_tests COMMAND tests)
