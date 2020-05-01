@@ -39,7 +39,7 @@ find_package(Boost REQUIRED COMPONENTS program_options)
 hunter_add_package(rocksdb)
 find_package(RocksDB CONFIG REQUIRED)
 
-target_link_libraries(lab10
+target_link_libraries(lab-10-kv-storage
         ${CMAKE_THREAD_LIBS_INIT}
         )
 
