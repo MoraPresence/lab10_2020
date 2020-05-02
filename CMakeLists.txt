@@ -75,19 +75,3 @@ add_executable(tests
 target_include_directories(tests
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
-
-target_link_libraries(tests GTest::main ${PROJECT_NAME})
-
-enable_testing()
-add_test(NAME unit_tests COMMAND tests)
-
-if(BUILD_COVERAGE)
-    set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-    find_package(codecov)
-
-    add_coverage(${PROJECT_NAME})
-    add_coverage(tests)
-    list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
-    coverage_evaluate()
-endif()
