@@ -53,6 +53,15 @@ add_executable(
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/logs.cpp
 )
 
+add_executable(tests
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+        )
+		
+target_include_directories(tests
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+        )
+		
+
 target_include_directories(
         ${PROJECT_NAME}
         PUBLIC
@@ -71,13 +80,8 @@ target_link_libraries(
         RocksDB::rocksdb
 )
 
-add_executable(tests
-        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
-        )
-target_include_directories(tests
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-        )
-		
+
+
 		enable_testing()
 add_test(NAME unit_tests COMMAND tests)
 
