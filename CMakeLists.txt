@@ -50,6 +50,7 @@ find_package(GTest CONFIG REQUIRED)
 
 add_executable(
         template
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/DBHashCreator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/logs.cpp
 )
