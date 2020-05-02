@@ -17,7 +17,7 @@
 #include <mutex>
 #include <vector>
 #include <list>
-#include <picosha2.h>
+#include <picosha2.hpp>
 #include <constants.hpp>
 
 using FContainer =
