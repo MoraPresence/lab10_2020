@@ -163,7 +163,8 @@ void DBHashCreator::getHash
 }
 
 void DBHashCreator::startHash
-        (FHandlerContainer *handlers, std::list <StrContainer> *StrContainerList) {
+        (FHandlerContainer *handlers,
+                std::list <StrContainer> *StrContainerList) {
     while (!handlers->empty()) {
         _mutex.lock();
         if (handlers->empty()) {
