@@ -47,7 +47,6 @@ hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
 add_executable(
-        ${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/DBHashCreator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/logs.cpp
