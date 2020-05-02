@@ -37,8 +37,7 @@ public:
             std::size_t threadCount,
             std::string logLVL) :
             _path(path),
-            _threadCountHash(threadCount),
-            _logLVL(logLVL){}
+            _logLVL(logLVL),  _threadCountHash(threadCount){}
 
     void createDB();
 
