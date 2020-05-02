@@ -1,5 +1,7 @@
 // Copyright 2018 Your Name <your_email>
-#include "DBHashCreator.cpp"
+#include <main.hpp>
+#include <constants.hpp>
+#include <logs.hpp>
 
 int main(int argc, char **argv) {
     po::options_description desc("short description");
