@@ -41,6 +41,9 @@ find_package(Boost
         log_setup
         filesystem)
 
+hunter_add_package(rocksdb)
+find_package(RocksDB CONFIG REQUIRED)
+find_package(Threads)
 
 add_library(logs INTERFACE
         )
@@ -75,9 +78,9 @@ target_include_directories(
         logs
         INTERFACE $<BUILD_INTERFACE:${${PROJECT_NAME}_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_link_libraries(template Boost::log Boost::thread Boost::program_options Boost::log_setupBoost::filesystem
+target_link_libraries(template Boost::log Boost::thread Boost::program_options Boost::log_setup Boost::filesystem
         RocksDB::rocksdb)
-target_link_libraries(header INTERFACE Boost::log Boost::thread Boost::program_options Boost::log_setupBoost::filesystem
+target_link_libraries(header INTERFACE Boost::log Boost::thread Boost::program_options Boost::log_setup Boost::filesystem
         RocksDB::rocksdb)
 
 enable_testing()

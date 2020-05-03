@@ -1,4 +1,4 @@
-/home/mora/Desktop/clion-2019.3.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/bin/gcc -DCMAKE_CXX_COMPILER=/bin/g++ -G "CodeBlocks - Unix Makefiles" /home/mora/Desktop/lab-10-kv-storage
+/home/mora/Desktop/clion-2019.3.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/bin/gcc -DCMAKE_CXX_COMPILER=/bin/g++ -G "CodeBlocks - Unix Makefiles" /home/mora/Desktop/lab10_2020
 CMake Error at CMakeLists.txt:14 (include):
   include could not find load file:
 
