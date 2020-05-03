@@ -53,6 +53,8 @@ add_library(header INTERFACE
 add_library(template STATIC
         # enum your files and delete this comment
         ${CMAKE_CURRENT_SOURCE_DIR}/sources/DBHashCreator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/logs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
         )
 add_executable(tests
         # TODO: enum your files and delete this comment
