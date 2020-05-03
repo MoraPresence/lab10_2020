@@ -149,8 +149,8 @@ StrContainer DBHashCreator::getStrs(rocksdb::ColumnFamilyHandle *family) {
 }
 
 void DBHashCreator::getHash
-        (rocksdb::ColumnFamilyHandle *family, StrContainer StrContainer) {
-    for (auto it = StrContainer.begin(); it != StrContainer.end(); ++it) {
+        (rocksdb::ColumnFamilyHandle *family, StrContainer strContainer) {
+    for (auto it = strContainer.begin(); it != strContainer.end(); ++it) {
         std::string hash = picosha2::hash256_hex_string(it->first + it->second);
         std::cout << "key: " << it->first << " hash: " << hash << std::endl;
         logs::logInfo(it->first, hash);
@@ -185,10 +185,10 @@ void DBHashCreator::startThreads() {
     auto deskriptors = getFamilyDescriptors();
     auto handlers = openDB(deskriptors);
 
-    std::list <StrContainer> StrContainer;
+    std::list <StrContainer> StrContainerList;
 
     for (auto &family : handlers) {
-        StrContainer.push_back(
+        StrContainerList.push_back(
                 getStrs(family.get()));
     }
 
@@ -199,7 +199,7 @@ void DBHashCreator::startThreads() {
                                      (&DBHashCreator::startHash,
                                       this,
                                       &handlers,
-                                      &StrContainer));
+                                      &StrContainerList));
     }
     for (auto &th : threads) {
         th.join();
